@@ -12,11 +12,24 @@ import {saveTask, getTasks, onGetTasks} from './firebase.js'
         <div>
             <h3>${task.title}</h3>
             <p>${task.description}</p>
+            <button class="btn-delete" data-id="${doc.id}">Delete</button>
         </div>
         `;
     });
 
     tasksContainer.innerHTML = html;
+
+    const btnsDelete = tasksContainer.querySelectorAll(".btn-delete");
+    btnsDelete.forEach((btn) =>
+      btn.addEventListener("click", async ({ target: { dataset } }) => {
+        try {
+          await deleteTask(dataset.id);
+        } catch (error) {
+          console.log(error);
+        }
+      })
+    );
+    
     });
 
   });
